@@ -3,19 +3,25 @@ __author__ = 'ratnesh.mishra'
 
 class BinaryIndexedTree:
 
-    def __init__(self, tree):
-        self.tree = tree
+    def __init__(self):
+        self.tree = []
 
-    def update_tree(self, incr, size):
-        idx = 0
+    def update_tree(self, incr, idx, size):
+        idx += 1
         while idx <= size:
             self.tree[idx] += incr
-            idx += idx - idx
+            idx += idx & - idx
 
-    def get_value(self, idx, size):
+    def construct_tree(self, arr: list=[]):
+        self.tree = [0]*(len(arr)+1)
+        for idx, val in enumerate(arr):
+            self.update_tree(val, idx, len(arr))
+        return
+
+    def get_cum_sum(self, idx, size):
 
         if idx > size: return self.tree[size-1]
-        it, cumsum = 0, 0
+        it, cumsum = idx + 1, 0
         while it:
             cumsum += self.tree[it]
             it -= it & -it
@@ -32,13 +38,7 @@ if __name__ == '__main__':
     """
     s = input()
     numbers = list(map(int, s.split()))
-    bit = BinaryIndexedTree(numbers)
-
-
-
-
-
-
-
-
-
+    bit = BinaryIndexedTree()
+    bit.construct_tree(numbers)
+    k = int(input())
+    print(bit.get_cum_sum(k, len(numbers)))
