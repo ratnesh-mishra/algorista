@@ -19,14 +19,14 @@ class BinaryIndexedTree:
         return
 
     def get_cum_sum(self, idx, size):
-
-        if idx > size: return self.tree[size-1]
-        it, cumsum = idx + 1, 0
-        while it:
-            cumsum += self.tree[it]
-            it -= it & -it
-
-        return cumsum
+        try:
+            it, cumsum = idx + 1, 0
+            while it:
+                cumsum += self.tree[it]
+                it -= it & -it
+            return cumsum
+        except IndexError:
+            raise Exception("Index out of bounds")
 
 
 if __name__ == '__main__':
